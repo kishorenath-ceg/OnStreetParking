@@ -1,0 +1,68 @@
+.slot-page { font-family: 'Inter', sans-serif; min-height: 100vh; padding: 40px 20px; }
+.slot-container-wrapper { max-width: 1200px; margin: 0 auto; }
+.back-link { display: inline-flex; align-items: center; margin-bottom: 24px; padding: 8px 16px; background: transparent; border: 1px solid var(--accent-secondary); color: var(--accent-secondary); border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+.back-link:hover { background: var(--accent-secondary); color: #000; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
+.slot-hero { display: flex; align-items: center; justify-content: space-between; gap: 30px; margin: 0 0 40px 0; }
+.hero-content h1 { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 800; color: var(--text-primary); margin: 0 0 12px 0; letter-spacing: -0.03em; }
+.hero-content .sub { font-size: 1.15rem; color: var(--text-secondary); font-weight: 400; margin: 0; }
+.hero-img { width: 380px; height: 200px; object-fit: cover; border-radius: 16px; box-shadow: var(--glass-shadow); border: var(--glass-border); }
+.slot-container h2 { font-family: 'Space Grotesk', sans-serif; margin: 0 0 24px 0; font-size: 1.6rem; color: var(--text-primary); font-weight: 700; letter-spacing: -0.01em; text-align: center; }
+
+/* 2D Floor Plan Styles */
+.floor-plan-container { background: #0c141d; border: 2px solid rgba(0, 229, 255, 0.2); border-radius: 12px; padding: 40px; overflow-x: auto; position: relative; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); margin-bottom: 40px; }
+.floor-plan-grid { display: flex; flex-direction: column; gap: 30px; min-width: 600px; }
+.grid-road { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; background: #1a2632; border-radius: 8px; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+.road-line { position: absolute; top: 50%; left: 15%; right: 15%; height: 2px; border-top: 2px dashed rgba(255,255,255,0.4); }
+.road-marker { color: var(--accent-secondary); font-weight: 800; letter-spacing: 2px; z-index: 1; font-size: 0.9rem; }
+.parking-bays { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px; }
+.bay-slot { aspect-ratio: 1 / 1.6; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.bay-available:hover { background: rgba(0, 255, 136, 0.1); border-color: var(--success); transform: scale(1.05); box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2); z-index: 10; }
+.bay-occupied { cursor: not-allowed; border-color: rgba(255, 0, 127, 0.3); background: rgba(255, 0, 127, 0.05); }
+.bay-id { font-size: 1.5rem; font-weight: 800; color: rgba(255,255,255,0.9); z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+.bay-action { font-size: 0.7rem; color: var(--success); font-weight: 700; text-transform: uppercase; margin-top: 5px; z-index: 2; opacity: 0; transition: 0.2s; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; }
+.bay-available:hover .bay-action { opacity: 1; }
+.bay-status-indicator { position: absolute; top: 10px; right: 10px; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+.bay-available .bay-status-indicator { background: var(--success); box-shadow: 0 0 10px var(--success); }
+.bay-occupied .bay-status-indicator { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
+.vehicle-graphic { position: absolute; top: 10%; width: 80%; height: 80%; color: #4a5568; opacity: 0.9; }
+
+/* Modal CSS - Wizard */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+.modal-content { background: var(--bg-card); border: var(--glass-border); border-radius: 12px; width: 100%; max-width: 420px; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); animation: modalIn 0.2s ease-out; }
+@keyframes modalIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-header h3 { margin: 0; font-size: 1.2rem; color: #FFF; font-weight: 600; font-family: 'Space Grotesk', sans-serif;}
+.close-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-secondary); }
+.close-btn:hover { color: #FFF; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+.form-group input, .form-group select { width: 100%; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; font-size: 0.95rem; color: #FFF; outline: none; transition: 0.2s; }
+.form-group input:focus, .form-group select:focus { border-color: var(--accent-secondary); box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2); }
+.view-button { padding: 12px; width: 100%; flex: 1; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-weight: 600; transition: 0.2s; }
+.view-button:hover { background: rgba(255,255,255,0.1) !important; }
+.confirm-btn { width: 100%; padding: 12px; background: var(--accent-secondary); color: #000; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 8px; transition: 0.2s; box-shadow: 0 0 15px rgba(0,229,255,0.4); }
+.confirm-btn:hover { background: #00ffff; box-shadow: 0 0 25px rgba(0,229,255,0.6); }
+.confirm-btn:disabled { background: rgba(255,255,255,0.1); color: var(--text-secondary); box-shadow: none; cursor: not-allowed; }
+.step-indicator { display: flex; gap: 8px; margin-bottom: 20px; }
+.step-dot { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+.step-dot.active { background: var(--accent-secondary); box-shadow: 0 0 8px var(--accent-secondary); }
+
+.loader-wrapper { display: flex; justify-content: center; align-items: center; min-height: 200px; }
+.spinner { width: 40px; height: 40px; border: 4px solid rgba(255, 255, 255, 0.1); border-left-color: var(--accent-primary); border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.slide-in { animation: slideIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+@keyframes slideIn { 
+  from { opacity: 0; transform: translateY(10px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+.payment-form { background: rgba(0,0,0,0.2); padding: 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
+
+.surge-badge { margin-left: 10px; padding: 4px 10px; background: rgba(255, 102, 0, 0.15); border: 1px solid #ff6600; color: #ff6600; font-size: 0.8rem; font-weight: bold; border-radius: 6px; letter-spacing: 0.5px; vertical-align: middle; }
+.pulse { animation: pulse 2s infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 102, 0, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 102, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 102, 0, 0); } }
+
+.waitlist-card { margin-top: 30px; background: rgba(255, 51, 102, 0.05); border: 1px solid rgba(255, 51, 102, 0.3); padding: 24px; border-radius: 12px; text-align: center; }
+.waitlist-card h3 { color: var(--danger); font-family: 'Space Grotesk', sans-serif; margin-bottom: 10px; }
+.waitlist-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px; }
+.waitlist-form { max-width: 400px; margin: 0 auto; background: var(--bg-card); padding: 20px; border-radius: 8px; border: var(--glass-border); box-shadow: var(--glass-shadow); text-align: left; }

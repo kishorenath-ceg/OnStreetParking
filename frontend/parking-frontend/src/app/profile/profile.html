@@ -1,0 +1,58 @@
+<div class="page-wrapper">
+  <button class="back-link" (click)="goBack()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Map
+  </button>
+  
+  <h1 class="page-title">Digital Profile & Wallet</h1>
+
+  <div class="grid-layout">
+    <!-- Wallet Section -->
+    <div class="panel glass-card slide-in">
+      <h2>My Wallet</h2>
+      <div class="balance-display">
+        <span class="currency">₹</span>
+        <span class="amount">{{ walletBalance }}</span>
+      </div>
+      
+      <div class="action-form">
+        <input type="number" [(ngModel)]="addAmount" class="input-field" placeholder="Amount to add">
+        <button class="primary-btn" (click)="addMoney()">Top-Up Balance</button>
+      </div>
+    </div>
+
+    <!-- Vehicles Section -->
+    <div class="panel glass-card slide-in" style="animation-delay: 0.1s">
+      <h2>Saved Vehicles</h2>
+      <div class="vehicle-list" *ngIf="savedVehicles.length > 0">
+        <div class="vehicle-card" *ngFor="let v of savedVehicles">
+          <div class="v-icon">🚗</div>
+          <div class="v-details">
+            <h3>{{ v.name }}</h3>
+            <p>{{ v.number }}</p>
+          </div>
+        </div>
+      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 20px;" *ngIf="savedVehicles.length === 0">No saved vehicles yet.</p>
+
+      <div class="action-form">
+        <input type="text" [(ngModel)]="newVehicleName" class="input-field" placeholder="E.g., Daily Sedan">
+        <input type="text" [(ngModel)]="newVehicleNumber" class="input-field" placeholder="Vehicle Number">
+        <button class="secondary-btn" (click)="saveVehicle()">Add Vehicle</button>
+      </div>
+    </div>
+    <!-- Bookings Section -->
+    <div class="panel glass-card slide-in" style="animation-delay: 0.2s; grid-column: 1 / -1;">
+      <h2>My Active Passes & History</h2>
+      <div class="vehicle-list" *ngIf="bookings.length > 0" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; flex-direction: row; margin-bottom: 0;">
+        <div class="vehicle-card" *ngFor="let b of bookings" style="flex-direction: column; align-items: center; text-align: center; border-color: rgba(0, 255, 136, 0.4); background: rgba(0, 255, 136, 0.05); padding: 30px;">
+          <img *ngIf="b.qrUrl" [src]="b.qrUrl" style="width: 160px; height: 160px; border-radius: 8px; margin-bottom: 20px; border: 4px solid var(--success);">
+          <h3 style="color: var(--success); font-size: 1.3rem;">{{ b.location }}</h3>
+          <p style="color: #fff; font-size: 1.1rem; font-family: 'Space Grotesk', sans-serif;">Slot: {{ b.slotId }}</p>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;">Reserved for {{ b.duration }} Hrs<br>{{ b.date | date:'short' }}</p>
+        </div>
+      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 20px;" *ngIf="bookings.length === 0">No parking history yet.</p>
+    </div>
+  </div>
+</div>

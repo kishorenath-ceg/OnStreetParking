@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --bg-dark: #0A0B1A;
+  --bg-card: rgba(15, 17, 35, 0.85);
+  --bg-card-hover: rgba(22, 25, 48, 0.95);
+  --accent-primary: #ff007f;
+  --accent-secondary: #00e5ff;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A3CC;
+  --success: #00FF88;
+  --danger: #FF3366;
+  --warning: #FFB300;
+  
+  --glass-border: 1px solid rgba(0, 229, 255, 0.15);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 229, 255, 0.05);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Route transition helpers */
+body.page-transition {
+	transition: opacity 280ms ease-in-out;
+}
+
+.fade-in {
+	animation: fadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(8px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-out {
+	animation: fadeOut 200ms ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+	from { opacity: 1; transform: translateY(0); }
+	to { opacity: 0; transform: translateY(-4px); }
+}
+
+/* Map specific global overrides */
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--bg-card) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 229, 255, 0.1) !important;
+  border: var(--glass-border) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(12px);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--text-secondary) !important;
+  padding: 8px !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}

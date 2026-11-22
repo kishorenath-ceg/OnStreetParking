@@ -1,0 +1,22 @@
+
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "backend": {
+      "root": "street-parking-system/backend",
+      "framework": "express"
+    },
+    "parking-frontend": {
+      "root": "street-parking-system/frontend/parking-frontend",
+      "framework": "angular"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "backend"
+      }
+    }
+  ]
+}

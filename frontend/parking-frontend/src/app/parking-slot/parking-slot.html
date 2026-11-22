@@ -1,0 +1,175 @@
+<div class="slot-page">
+  <div class="slot-container-wrapper">
+    <button class="back-link" (click)="backToMap()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Locations
+    </button>
+    
+    <div class="slot-hero">
+      <div class="hero-content">
+        <h1>{{ parkingName }}</h1>
+        <p class="sub">Select a spot below to secure your reservation.</p>
+      </div>
+      <img class="hero-img" src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=60" alt="Cyberpunk car parked">
+    </div>
+
+    <!-- Booking Modal (Multi-Step Wizard) -->
+    <div class="modal-overlay" *ngIf="selectedSlot">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Reserve Slot {{ selectedSlot.id }}</h3>
+          <button class="close-btn" (click)="closeModal()">✕</button>
+        </div>
+
+        <div class="step-indicator">
+          <div class="step-dot" [class.active]="step >= 1"></div>
+          <div class="step-dot" [class.active]="step >= 2"></div>
+          <div class="step-dot" [class.active]="step >= 3"></div>
+        </div>
+
+        <!-- Step 1: Details -->
+        <div *ngIf="step === 1">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" [(ngModel)]="reservationForm.name" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label>Vehicle Number</label>
+            <div style="display: flex; gap: 10px;">
+              <select [(ngModel)]="reservationForm.vehicle" *ngIf="savedVehicles.length > 0" style="flex: 1;">
+                <option value="">-- Choose Saved Vehicle --</option>
+                <option *ngFor="let v of savedVehicles" [value]="v.number">{{ v.name }} ({{ v.number }})</option>
+              </select>
+              <input type="text" [(ngModel)]="reservationForm.vehicle" placeholder="TN 01 AB 1234" [style.flex]="savedVehicles.length > 0 ? '1' : 'auto'">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" [(ngModel)]="reservationForm.phone" placeholder="10 Digits">
+          </div>
+          <div class="form-group">
+            <label>Duration</label>
+            <select [(ngModel)]="reservationForm.duration">
+              <option value="1">1 Hour (₹60)</option>
+              <option value="2">2 Hours (₹120)</option>
+              <option value="4">4 Hours (₹200)</option>
+            </select>
+          </div>
+          <button class="confirm-btn" (click)="requestOTP()" [disabled]="!isFormValid()">Proceed to Verify</button>
+        </div>
+
+        <!-- Step 2: OTP Verification -->
+        <div *ngIf="step === 2">
+          <p style="color: var(--text-secondary); font-size: 0.9em; margin-bottom: 20px;">A physical SMS with an OTP has been dispatched to +91-{{ reservationForm.phone }}. Please check your phone messages.</p>
+          <div class="form-group">
+            <label>Enter 6-Digit OTP</label>
+            <input type="text" [(ngModel)]="otpInput" placeholder="123456" maxlength="6" style="font-size: 2em; letter-spacing: 0.5em; text-align: center;">
+          </div>
+          <button class="confirm-btn" (click)="verifyOTP()" [disabled]="otpInput.length !== 6">Authenticate</button>
+        </div>
+
+        <!-- Step 3: Payment -->
+        <div *ngIf="step === 3">
+          <h4 style="color: #fff; text-align: center; margin-bottom: 20px;">Secure Checkout</h4>
+          
+          <div class="payment-method-selector" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <button class="view-button" (click)="paymentMethod = 'WALLET'" [style.background]="paymentMethod === 'WALLET' ? 'var(--accent-primary)' : 'transparent'">Wallet (₹{{ walletBalance }})</button>
+            <button class="view-button" (click)="paymentMethod = 'CARD'" [style.background]="paymentMethod === 'CARD' ? 'var(--accent-primary)' : 'transparent'">Credit Card</button>
+            <button class="view-button" (click)="paymentMethod = 'UPI'" [style.background]="paymentMethod === 'UPI' ? 'var(--accent-primary)' : 'transparent'">UPI</button>
+          </div>
+
+          <!-- Dynamic Forms -->
+          <div *ngIf="paymentMethod === 'WALLET'" class="payment-form slide-in" style="text-align: center;">
+            <p *ngIf="walletBalance >= getPrice()" style="color: var(--success); font-size: 1.1rem; margin: 20px 0;">Sufficient Balance ✅</p>
+            <p *ngIf="walletBalance < getPrice()" style="color: var(--danger); font-size: 1.1rem; margin: 20px 0;">Insufficient Balance ❌. Please add funds in your Profile.</p>
+          </div>
+
+          <div *ngIf="paymentMethod === 'CARD'" class="payment-form slide-in">
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" [(ngModel)]="paymentDetails.cardNumber" placeholder="0000 0000 0000 0000" maxlength="16">
+            </div>
+            <div style="display: flex; gap: 16px;">
+              <div class="form-group" style="flex: 1;">
+                <label>Expiry Date</label>
+                <input type="text" [(ngModel)]="paymentDetails.cardExpiry" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div class="form-group" style="width: 100px;">
+                <label>CVV</label>
+                <input type="password" [(ngModel)]="paymentDetails.cardCvv" placeholder="***" maxlength="3">
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="paymentMethod === 'UPI'" class="payment-form slide-in">
+            <div class="form-group">
+              <label>UPI ID</label>
+              <input type="text" [(ngModel)]="paymentDetails.upiId" placeholder="username@bank">
+            </div>
+          </div>
+
+          <p style="text-align: center; color: var(--accent-secondary); font-size: 1.5rem; font-weight: bold; margin: 20px 0;">Total: ₹{{ getPrice() }}</p>
+          <button class="confirm-btn" (click)="processPayment()" [disabled]="!isPaymentValid()" style="background: var(--success); box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); color: #000;">Pay & Secure Slot</button>
+        </div>
+        <!-- Step 4: Digital Pass -->
+        <div *ngIf="step === 4" class="slide-in" style="text-align: center;">
+          <h4 style="color: var(--success); margin-bottom: 10px; font-size: 1.5rem;">Secure Access Granted!</h4>
+          <p style="color: var(--text-secondary); font-size: 0.95em; margin-bottom: 20px;">Please scan this visual hardware pass at the entry terminal to bypass the physical queue.</p>
+          
+          <div style="background: #fff; padding: 20px; border-radius: 12px; display: inline-block; margin-bottom: 20px; border: 4px solid var(--success);">
+            <img *ngIf="qrCodeUrl" [src]="qrCodeUrl" alt="Pass QR" style="width: 220px; height: 220px;">
+            <div *ngIf="!qrCodeUrl" class="spinner" style="border-left-color: var(--success); margin: 90px;"></div>
+          </div>
+          
+          <button class="confirm-btn" (click)="closeModal()" style="background: var(--accent-primary); box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); color: #fff;">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Grid -->
+    <div class="slot-container">
+      <h2>Live Availability <span *ngIf="highDemand" class="surge-badge pulse">⚡ HIGH DEMAND (1.5x Pricing Active)</span></h2>
+      
+      <div *ngIf="loading" class="loader-wrapper">
+        <div class="spinner"></div>
+      </div>
+
+      <div *ngIf="!loading" class="floor-plan-container slide-in">
+        <div class="floor-plan-grid">
+          <div class="grid-road">
+            <span class="road-marker">⬇ ENTER</span>
+            <div class="road-line"></div>
+            <span class="road-marker">EXIT ⬆</span>
+          </div>
+
+          <div class="parking-bays">
+            <div class="bay-slot" *ngFor="let s of slots" 
+                 [class.bay-occupied]="!s.available" 
+                 [class.bay-available]="s.available"
+                 (click)="openReserveModal(s)">
+                 
+              <div class="vehicle-graphic" *ngIf="!s.available">
+                <svg viewBox="0 0 100 200" fill="currentColor"><rect x="10" y="20" width="80" height="160" rx="20" opacity="0.8"/><circle cx="20" cy="40" r="10" fill="#fff" opacity="0.5"/><circle cx="80" cy="40" r="10" fill="#fff" opacity="0.5"/><path d="M 20 60 L 80 60 L 70 90 L 30 90 Z" fill="#000" opacity="0.3"/></svg>
+              </div>
+
+              <span class="bay-id">{{ s.id }}</span>
+              <span class="bay-action" *ngIf="s.available">Park Here</span>
+              <div class="bay-status-indicator"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WAITLIST UI -->
+      <div *ngIf="isFull && !loading" class="waitlist-card slide-in">
+        <h3>🚨 Location Full Form 🚨</h3>
+        <p>This parking zone is at full capacity. Join the waitlist to receive an active SMS ping from our live servers the moment a spot clears.</p>
+        <div class="waitlist-form form-group">
+          <input type="text" [(ngModel)]="waitlistPhone" placeholder="Enter Phone # (e.g. 9876543210)" maxlength="10"/>
+          <button class="confirm-btn" (click)="joinWaitlist()" [disabled]="waitlistPhone.length < 10" style="margin-top: 10px;">Queue for Notification</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

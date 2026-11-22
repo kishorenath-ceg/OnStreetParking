@@ -1,0 +1,79 @@
+<div class="split-auth-wrapper">
+  <div class="split-auth-card">
+    <div class="split-left">
+      <!-- Decorative CSS Clouds / Stars via before/after and nested divs if needed -->
+      <div class="clouds"></div>
+      <div class="shooting-star"></div>
+      <div class="shooting-star delay"></div>
+      <div class="left-content">
+        <h1>Welcome Page</h1>
+        <p>Sign In to Your Account</p>
+      </div>
+      <div class="site-link">www.yoursite.com</div>
+    </div>
+    
+    <div class="split-right">
+      <div class="right-header">
+        <p class="greeting">Hello !</p>
+        <p class="greeting-highlight">Good Morning</p>
+      </div>
+
+      <h3 class="form-title">
+        <span style="color:#0db8db; font-weight:700;">
+          {{ mode === 'login' ? 'Login' : (mode === 'register' ? 'Create' : (mode === 'forgot' ? 'Recover' : 'Reset')) }}
+        </span> Your Account
+      </h3>
+
+      <div class="modern-form">
+        <!-- LOGIN / REGISTER FORM -->
+        <ng-container *ngIf="mode === 'login' || mode === 'register'">
+          <div class="modern-group">
+            <input type="text" [(ngModel)]="form.phone" name="phone_field" autocomplete="off" required placeholder=" " ngModel #phoneInput="ngModel" [class.has-val]="form.phone.length > 0">
+            <label>Mobile / Username</label>
+          </div>
+
+          <div class="modern-group">
+            <input type="password" [(ngModel)]="form.password" name="pass_field" autocomplete="new-password" required placeholder=" " ngModel #passInput="ngModel" [class.has-val]="form.password.length > 0">
+            <label>Password</label>
+          </div>
+
+          <div class="options-row" *ngIf="mode === 'login'">
+            <label class="remember-me"><input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe"> Remember</label>
+            <a href="javascript:void(0)" class="forgot-link" (click)="setMode('forgot')">Forgot Password ?</a>
+          </div>
+
+          <button class="submit-btn" (click)="submit()">SUBMIT</button>
+
+          <p class="toggle-link" (click)="toggleMode()">
+            {{ mode === 'login' ? 'Create Account' : 'Already have an account? Login' }}
+          </p>
+        </ng-container>
+
+        <!-- FORGOT PASSWORD FORM -->
+        <ng-container *ngIf="mode === 'forgot'">
+          <div class="modern-group">
+            <input type="text" [(ngModel)]="form.phone" required placeholder=" " ngModel #fPhoneInput="ngModel" [class.has-val]="form.phone.length > 0">
+            <label>Registered Mobile Number</label>
+          </div>
+          <button class="submit-btn" (click)="forgotPassword()">SEND SECURE OTP</button>
+          <p class="toggle-link" (click)="setMode('login')">Return to Login</p>
+        </ng-container>
+
+        <!-- RESET PASSWORD FORM -->
+        <ng-container *ngIf="mode === 'reset'">
+          <p style="color:#666; font-size:0.85rem; margin-bottom:15px; text-align:center;">An OTP was securely dispatched to {{ form.phone }}</p>
+          <div class="modern-group">
+            <input type="text" [(ngModel)]="forgotOtp" name="otp_field" autocomplete="off" required placeholder=" " ngModel #otpInput="ngModel" [class.has-val]="forgotOtp.length > 0" maxlength="6">
+            <label>6-Digit Verified OTP</label>
+          </div>
+          <div class="modern-group">
+            <input type="password" [(ngModel)]="form.password" name="new_pass_field" autocomplete="new-password" required placeholder=" " ngModel #newPassInput="ngModel" [class.has-val]="form.password.length > 0">
+            <label>New Secured Password</label>
+          </div>
+          <button class="submit-btn" (click)="resetPassword()">UPDATE PASSWORD</button>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>

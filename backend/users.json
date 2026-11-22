@@ -1,0 +1,106 @@
+[
+  {
+    "phone": "kishore",
+    "passwordHash": "$2b$10$ltqBaYjgXch/1PqalXBN1eS7u7m0i98oHOF3gMv84ZTs2nANn8GKu",
+    "role": "admin",
+    "walletBalance": 0,
+    "savedVehicles": []
+  },
+  {
+    "phone": "user",
+    "passwordHash": "$2b$10$XNxaoKQY6HlGMRjarEn8dOzTZRhyWlNTEIAUcGWx7r7cs2b9rHjWG",
+    "role": "user",
+    "walletBalance": 0,
+    "savedVehicles": []
+  },
+  {
+    "phone": "Ramu",
+    "passwordHash": "$2b$10$DQxI3K/6moimKLkXJFR2mOoxp7aRJhVww5SAFGfCHmI35RMeU70ha",
+    "role": "user",
+    "walletBalance": 0,
+    "savedVehicles": []
+  },
+  {
+    "phone": "jannu",
+    "passwordHash": "$2b$10$gUMhoWOZ5RB.pX35Ao/qDufpNHyij/AV7vImq0OaQwxrNHYkOLChy",
+    "role": "user",
+    "walletBalance": 100,
+    "savedVehicles": [],
+    "bookings": [
+      {
+        "location": "Guindy",
+        "slotId": "G1",
+        "duration": "1",
+        "date": "2026-04-30T16:14:33.658Z"
+      }
+    ]
+  },
+  {
+    "phone": "jannu ",
+    "passwordHash": "$2b$10$QlnO121Y0FGK4sO4Ce/ObeM2KyAFJtgAdcVhtmqlWlFminmjYuTty",
+    "role": "user",
+    "walletBalance": 480,
+    "savedVehicles": [
+      {
+        "name": "daily",
+        "number": "TN 01 AK 3453"
+      }
+    ],
+    "bookings": [
+      {
+        "location": "Mount Road",
+        "slotId": "MR1",
+        "duration": "1",
+        "date": "2026-04-06T19:13:56.602Z"
+      },
+      {
+        "location": "Alwarpet",
+        "slotId": "AL3",
+        "duration": "2",
+        "date": "2026-04-06T19:17:37.394Z"
+      }
+    ]
+  },
+  {
+    "phone": "rakesh",
+    "passwordHash": "$2b$10$7XCYpM6U6s/5r56c4tKoDevXuna.kNtzdT5Dd5pMLAcPG87ffBg1i",
+    "role": "user",
+    "walletBalance": 600,
+    "savedVehicles": [
+      {
+        "name": "tata",
+        "number": "TN 12 AK 3455"
+      },
+      {
+        "name": "tesla",
+        "number": "TN 12 KA 1234"
+      }
+    ],
+    "bookings": [
+      {
+        "location": "Guindy",
+        "slotId": "G1",
+        "duration": "2",
+        "date": "2026-04-09T05:56:55.760Z"
+      },
+      {
+        "location": "Mylapore",
+        "slotId": "M1",
+        "duration": "1",
+        "date": "2026-04-09T05:59:22.496Z"
+      },
+      {
+        "location": "Guindy",
+        "slotId": "G4",
+        "duration": "4",
+        "date": "2026-04-09T06:10:17.001Z"
+      },
+      {
+        "location": "Guindy",
+        "slotId": "G1",
+        "duration": "1",
+        "date": "2026-04-09T08:59:54.786Z"
+      }
+    ]
+  }
+]
